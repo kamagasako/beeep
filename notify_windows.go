@@ -32,7 +32,8 @@ func Notify(title, message, appIcon string) error {
 	if isWindows10 {
 		return toastNotify(title, message, appIcon)
 	}
-	return msgNotify(title, message)
+	//return msgNotify(title, message)
+	return growlNotify(title, message, appIcon)
 }
 
 func msgNotify(title, message string) error {
@@ -41,6 +42,15 @@ func msgNotify(title, message string) error {
 		return err
 	}
 	cmd := exec.Command(msg, "*", "/TIME:3", title+"\n\n"+message)
+	return cmd.Start()
+}
+
+func growlNotify(title, message, appIcon string) error {
+	growl, err := exec.LookPath("growlnotify")
+	if err != nil {
+		return msgNotify(title, message)
+	}
+	cmd := exec.Command(growl, "/t:"+title, "/s:true", "/i:"+appIcon, message)
 	return cmd.Start()
 }
 
