@@ -29,10 +29,12 @@ func init() {
 
 // Notify sends desktop notification.
 func Notify(title, message, appIcon string) error {
-	if isWindows10 {
-		return toastNotify(title, message, appIcon)
-	}
-	//return msgNotify(title, message)
+	/*
+		if isWindows10 {
+			return toastNotify(title, message, appIcon)
+		}
+		//return msgNotify(title, message)
+	*/
 	return growlNotify(title, message, appIcon)
 }
 
